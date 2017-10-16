@@ -5,20 +5,10 @@ package by.training.atm;
  */
 public class OperationAtm {
 
-    private int balance;
     Notes notes;
 
     public OperationAtm(Notes notes) {
         this.notes = notes;
-        balance = notes.getBalance();
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
     }
 
     public Notes getNotes() {
@@ -29,47 +19,71 @@ public class OperationAtm {
         this.notes = notes;
     }
 
-
-    public Integer putMoney (int moneyAmount){
-        if(moneyAmount%5==0){
-            balance += moneyAmount;
-            System.out.println("Сумма в банкомате стала равна: " + balance);
-        } else {
-            System.out.println("Сумма не может быть принята. Банкомат принимает купюры номиналом 5,10,20");
+    public Notes putMoney (Notes addMoney) throws TooMuchMoneyException {
+        if (!isAdditionAllowed(notes.getTwenty(), addMoney.getTwenty())){
+            throw new TooMuchMoneyException("Слишком много купюр номиналом 20!");
         }
-        return balance;
+        if (!isAdditionAllowed(notes.getTen(), addMoney.getTen())){
+            throw new TooMuchMoneyException("Слишком много купюр номиналом 10!");
+        }
+        if (!isAdditionAllowed(notes.getFive(), addMoney.getFive())){
+            throw new TooMuchMoneyException("Слишком много купюр номиналом 5!");
+        }
+        notes.addTwenty(addMoney.getTwenty());
+        notes.addTen(addMoney.getTen());
+        notes.addFive(addMoney.getFive());
+        return notes;
     }
 
-    public int takeMoney(int moneyAmount) throws NotEnoughMoneyException {
-        int s;
-        if (moneyAmount > balance)
-            throw new NotEnoughMoneyException();
-        if(moneyAmount%5==0){
-            if (moneyAmount>=20 && notes.getTwenty()*20>=moneyAmount){
-               if (moneyAmount%20==0){
-                balance -= moneyAmount;
-                notes.remTwenty(moneyAmount/20);
-               }
-               else if(moneyAmount%10==0){
-                   balance -=moneyAmount;
-                   notes.remTen(moneyAmount/10);
-               }
-               else if(moneyAmount%5==0){
-                   balance -=moneyAmount;
-                   notes.remFive(moneyAmount/5);
-               }
+    private boolean isAdditionAllowed(int have, int add) {
+        long sum = ((long)have) + add;
+        return sum <= Integer.MAX_VALUE;
+    }
+
+    public Notes takeMoney(int moneyAmount) throws NotEnoughMoneyException {
+        long balance = notes.getBalance();
+        if (balance < moneyAmount){
+            throw new NotEnoughMoneyException("Недостаточно средств в атм!");
+        }
+        if (moneyAmount % 5 != 0){
+            throw new NotEnoughMoneyException("Сумма должна быть кратна 5!");
+        }
+        Notes result = new Notes(0, 0, 0);
+        int need = moneyAmount / 20;
+        if (notes.getTwenty() > 0 && need > 0){
+            if (notes.getTwenty() >= need){
+                result.setTwenty(need);
+            } else {
+                result.setTwenty(notes.getTwenty());
             }
-        System.out.println("Сумма в банкомате стала равна: " + balance);
-        } else {
-            int i = moneyAmount%5;
-            int sum = moneyAmount - i;
-            System.out.println("Выдано - " + sum + " руб." + " Выдает купюры номиналом 5,10,20");
-            balance -= sum;
-            System.out.println("Сумма счета стала равна: " + balance);
+            moneyAmount = moneyAmount - result.getTwenty() * 20;
         }
-        return balance;
+        need = moneyAmount / 10;
+        if (moneyAmount > 0 && notes.getTen() > 0 && need > 0){
+            if (notes.getTen() >= need){
+                result.setTen(need);
+            } else {
+                result.setTen(notes.getTen());
+            }
+            moneyAmount = moneyAmount - result.getTen() * 10;
+        }
+        need = moneyAmount / 5;
+        if (moneyAmount > 0 && notes.getFive() > 0 && need > 0){
+            if (notes.getFive() >= need){
+                result.setFive(need);
+            } else {
+                result.setFive(notes.getFive());
+            }
+            moneyAmount = moneyAmount - result.getFive() * 5;
+        }
+        if (moneyAmount > 0){
+            throw new NotEnoughMoneyException("Недостаточно купюр в атм!");
+        }
+        notes.remTwenty(result.getTwenty());
+        notes.remTen(result.getTen());
+        notes.remFive(result.getFive());
+        return result;
     }
-
 }
 
 
