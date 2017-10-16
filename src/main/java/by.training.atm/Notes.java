@@ -8,7 +8,7 @@ public class Notes {
     private int five;
     private int ten;
     private int twenty;
-    private static int balance;
+    private int balance;
 
 //    public Notes(){};
 
@@ -31,24 +31,36 @@ public class Notes {
         return twenty;
     }
 
-    public static int getBalance(){
-
-        return balance;
+    public int getBalance(){
+        return five*5+ten*10+twenty*20;
     }
 
-    public static void setBalance(int balance) {
-        Notes.balance = balance;
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
     public void setFive(int five) {
-        this.five = five;
+        this.five += five;
     }
 
     public void setTen(int ten) {
-        this.ten = ten;
+        this.ten += ten;
     }
 
     public void setTwenty(int twenty) {
-        this.twenty = twenty;
+        this.twenty += twenty;
     }
+
+    public void remFive(int five){
+        this.five-=five;
+    }
+
+    public void remTen(int ten){
+        this.ten-=ten;
+    }
+
+    public void remTwenty(int twenty){
+        this.twenty-=twenty;
+    }
+
 }
