@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Loader {
     public static void main(String[] args) {
 
-        Notes notes = new Notes(0,0,0);// я бы по умолчанию нули ставил всюду
+        Notes notes = new Notes(0,0,0);
         OperationAtm operationAtm = new OperationAtm(notes);
         Card card = new Card(0);
 
