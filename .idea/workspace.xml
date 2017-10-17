@@ -7,8 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="582fd1fb-36c4-43df-8e64-9f2a357734ab" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/atm.jar" afterPath="$PROJECT_DIR$/target/atm.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/by.training.atm/Loader.java" afterPath="$PROJECT_DIR$/src/main/java/by.training.atm/Loader.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -115,7 +115,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="notesTwenty" />
+        <entry key="$PROJECT_DIR$" value="threeVersion" />
       </map>
     </option>
   </component>
